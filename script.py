@@ -30,7 +30,7 @@ def est_valide():
             elif indice == 0 and n != 0:
                 list.append(n)
                 n = 0
-            elif j == 4 and n!= 0:
+            if j == 4 and n!= 0:
                     list.append(n)
                     n = 0
         if ligne[i] != list:
