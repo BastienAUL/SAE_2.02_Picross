@@ -5,7 +5,7 @@ matrice = [[1,1,1,1,0],
            [0,1,0,1,0],
            [1,1,1,1,1],
            [1,1,1,1,1],
-           [1,1,0,0,1]]
+           [1,1,0,1,1]]
 
 
 
@@ -65,25 +65,69 @@ def afficheTab(tabAff):
 
 #afficheTab(tabAff)
 
-def parcoursRangeePleine(matrice):
-    list.clear() 
+def parcoursLignePleine(matrice):
     n = 0
     for i in range(taille):
         for j in range(taille):
             # verifie si a l'emplacement il y a un 1 et rajoute a n + 1
             if matrice[i][j] == 1:
                 n += 1
-            # si on est a la derniere colonne et que n est pas egale a 5 alors on reinitialise
+
+            # si on est a la fin de la ligne et que n est pas egale a 5 alors on reinitialise
             if j == taille - 1 and n != 5:
                 n = 0
             
-            # si on est a la derniere colonne et que n vaut 5 alors on peint toutes les cases precedentes et on reinitialise
+            # si on est a la fin de la ligne et que n vaut 5 alors on peint toutes les cases precedentes et on reinitialise
             elif j == taille - 1 and n == 5:
                 n = 0
                 for k in range(5):
                     tabAff[i][j - k] = bon
-                
-            
 
-parcoursRangeePleine(matrice)
+def parcourColonnePleine(matrice):
+ 
+    n = 0
+    for x in range(taille):
+        for y in range(taille):
+
+            # verifie si a l'emplacement il y a un 1 et rajoute a n + 1
+            if matrice[y][x] == 1:
+                n += 1
+            # si on est a la fin de la colonne et que n est pas egale a 5 alors on reinitialise
+            if y == taille - 1 and n != 5:
+                n = 0  
+            # si on est a la fin de la ligne et que n vaut 5 alors on peint toutes les cases precedentes et on reinitialise
+            elif y == taille - 1 and n == 5:
+                n = 0
+                for k in range(5):
+                    tabAff[y - k][x] = bon
+                
+def calculIndice(matrice):
+    val = 0
+    cle = 0
+    listIndice = {}
+    for i in range(taille):
+        for j in range(taille):
+            
+            if matrice[i][j] == 1:
+                val += 1
+            elif matrice[i][j] == 0 and val != 0:
+                listIndice = {cle:[val]}
+                print(cle, val)
+                val = 0
+                cle += 1
+
+            if j == taille - 1 and val != 0:
+                listIndice = {cle:[val]}
+                print(cle, val)
+                val = 0
+                cle += 1
+    
+    return listIndice
+
+
+parcoursLignePleine(matrice)
+parcourColonnePleine(matrice)
 afficheTab(tabAff)
+
+test = calculIndice(matrice)
+print(test)
