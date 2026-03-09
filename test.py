@@ -1,10 +1,9 @@
-ligne = {0:[4], 1:[1,1], 2:[5], 3:[2], 4:[2,1]}
 col = {0:[0], 1:[0], 2:[0], 3:[0], 4:[0]}
 
-matrice = [[1,1,1,1,0],
+matrice = [[1,1,0,1,0],
            [0,1,0,1,0],
-           [1,1,1,1,1],
-           [1,1,1,1,1],
+           [1,1,0,1,1],
+           [0,1,0,1,0],
            [1,1,0,1,1]]
 
 
@@ -21,6 +20,39 @@ for i in range(5):
 
 list = [] # cree une liste pour verifier les indices 
 taille = 5 # taille de la matrice
+
+listIndice = {}
+
+
+def calculIndiceLigne(matrice):
+    val = 0
+    listTmp = []
+
+    listTmp.clear()
+
+    for i in range(taille):
+
+        if matrice[i] == 1:
+            val += 1
+
+        elif matrice[i] == 0 and val != 0:
+            listTmp.append(val)
+            val = 0           
+
+        if i == taille - 1 and val != 0:
+            listTmp.append(val)
+            val = 0
+                
+
+    return listTmp
+
+
+for i in range(taille):
+    
+    listIndice[i] = calculIndiceLigne(matrice[i][0:])
+print(listIndice)
+
+
 
 def est_valide(matrice, ligne):
 
@@ -51,7 +83,7 @@ def est_valide(matrice, ligne):
         return True
 
 
-est_valide(matrice[0][0:], ligne[0])
+est_valide(matrice[0][0:], listIndice[0])
 
 #tableau pour afficher
 tabAff = [[mauvais for i in range(taille)] for i in range(taille)]
@@ -101,27 +133,7 @@ def parcourColonnePleine(matrice):
                 for k in range(5):
                     tabAff[y - k][x] = bon
                 
-def calculIndiceLigne(matrice):
-    val = 0
-    listTmp = []
 
-    listTmp.clear()
-
-    for i in range(taille):
-
-        if matrice[i] == 1:
-            val += 1
-
-        elif matrice[i] == 0 and val != 0:
-            listTmp.append(val)
-            val = 0           
-
-        if i == taille - 1 and val != 0:
-            listTmp.append(val)
-            val = 0
-                
-
-    return listTmp
 
 
 
@@ -129,6 +141,4 @@ parcoursLignePleine(matrice)
 parcourColonnePleine(matrice)
 afficheTab(tabAff)
 
-for i in range(taille):
-    test = {i:calculIndiceLigne(matrice[i][0:])}
-    print(test)
+
