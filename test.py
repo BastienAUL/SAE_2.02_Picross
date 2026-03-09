@@ -51,7 +51,7 @@ def est_valide(matrice, ligne):
         return True
 
 
-est_valide(matrice[0][0:], ligne[0])
+est_valide(matrice[1][0:], ligne[1])
 
 #tableau pour afficher
 tabAff = [[mauvais for i in range(taille)] for i in range(taille)]
@@ -103,31 +103,34 @@ def parcourColonnePleine(matrice):
                 
 def calculIndice(matrice):
     val = 0
-    cle = 0
-    listIndice = {}
+    listTmp = []
+
+    listTmp.clear()
     for i in range(taille):
-        for j in range(taille):
+        for j in range(taille): 
             
+            
+
             if matrice[i][j] == 1:
                 val += 1
+
             elif matrice[i][j] == 0 and val != 0:
-                listIndice = {cle:[val]}
-                print(cle, val)
+                listTmp.append(val)
                 val = 0
-                cle += 1
+                
 
             if j == taille - 1 and val != 0:
-                listIndice = {cle:[val]}
-                print(cle, val)
+                listTmp.append(val)
                 val = 0
-                cle += 1
-    
-    return listIndice
+                
+
+    return listTmp
 
 
 parcoursLignePleine(matrice)
 parcourColonnePleine(matrice)
 afficheTab(tabAff)
 
-test = calculIndice(matrice)
-print(test)
+for i in range(taille):
+    test = {i:calculIndice(matrice)}
+    print(test)
