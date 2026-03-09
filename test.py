@@ -21,9 +21,11 @@ for i in range(5):
 list = [] # cree une liste pour verifier les indices 
 taille = 5 # taille de la matrice
 
-listIndice = {}
+listIndiceLigne = {} #dictionnaire vide pour acceuillir les indices de lignes
+listIndiceCol = {} #dictionnaire vide pour acceuillir les indices de colonnes
 
 
+# calcul les indices des ligne de la matrice donner
 def calculIndiceLigne(matrice):
     val = 0
     listTmp = []
@@ -46,14 +48,45 @@ def calculIndiceLigne(matrice):
 
     return listTmp
 
+# calcul les indices des colonnes de la matrice donner (en cours)
+def calculIndiceColonne(matrice):
+    listTmp = []
+    val = 0
+    
+    listTmp.clear()
+    
+    for x in range(taille):
+        for y in range(taille):
+            
+            if matrice[y][x] == 1:
+                val += 1
 
+            elif matrice[y][x] == 0 and val != 0:
+                listTmp.append(val)
+                val = 0           
+
+            if y == taille - 1 and val != 0:
+                listTmp.append(val)
+                val = 0
+                
+    return listTmp
+
+
+# parcours pour cree un dictionnaire d'indice de ligne et ajouter les valeurs aux cle 
 for i in range(taille):
     
-    listIndice[i] = calculIndiceLigne(matrice[i][0:])
-print(listIndice)
+    listIndiceLigne[i] = calculIndiceLigne(matrice[i][0:])
+    
+print(listIndiceLigne)
 
+# parcours pour cree un dictionnaire d'indice de colonne et ajouter les valeurs aux cle 
+for j in range(taille):
+    
+    listIndiceCol[j] = calculIndiceColonne(matrice)
+    
+print(listIndiceCol)
 
-
+# verifie pour chaque ligne si elle correspond aux indices donner et renvoi true si pareil
 def est_valide(matrice, ligne):
 
     list.clear() 
@@ -83,9 +116,9 @@ def est_valide(matrice, ligne):
         return True
 
 
-est_valide(matrice[0][0:], listIndice[0])
+est_valide(matrice[0][0:], listIndiceLigne[0])
 
-#tableau pour afficher
+# tableau pour afficher
 tabAff = [[mauvais for i in range(taille)] for i in range(taille)]
 
 
@@ -95,7 +128,6 @@ def afficheTab(tabAff):
             print(f"{tabAff[i][j]:^4}", end=" ")
         print()
 
-#afficheTab(tabAff)
 
 def parcoursLignePleine(matrice):
     n = 0
