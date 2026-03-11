@@ -1,8 +1,8 @@
 col = {0:[0], 1:[0], 2:[0], 3:[0], 4:[0]}
 
 matrice = [[1,1,0,1,0],
-           [0,1,0,1,0],
-           [1,1,0,1,1],
+           [0,1,1,1,0],
+           [0,1,0,1,1],
            [0,1,0,1,0],
            [1,1,0,1,1]]
 
@@ -25,8 +25,8 @@ listIndiceLigne = {} #dictionnaire vide pour acceuillir les indices de lignes
 listIndiceCol = {} #dictionnaire vide pour acceuillir les indices de colonnes
 
 
-# calcul les indices des ligne de la matrice donner
-def calculIndiceLigne(matrice):
+# permet de calculer les indices de la matrice donner
+def calculIndice(matrice):
     val = 0
     listTmp = []
 
@@ -45,46 +45,20 @@ def calculIndiceLigne(matrice):
             listTmp.append(val)
             val = 0
                 
-
     return listTmp
-
-# calcul les indices des colonnes de la matrice donner (en cours)
-def calculIndiceColonne(matrice):
-    listTmp = []
-    val = 0
-    
-    listTmp.clear()
-    
-    for x in range(taille):
-        for y in range(taille):
-            
-            if matrice[y][x] == 1:
-                val += 1
-
-            elif matrice[y][x] == 0 and val != 0:
-                listTmp.append(val)
-                val = 0           
-
-            if y == taille - 1 and val != 0:
-                listTmp.append(val)
-                val = 0
-                
-    return listTmp
-
 
 # parcours pour cree un dictionnaire d'indice de ligne et ajouter les valeurs aux cle 
 for i in range(taille):
     
-    listIndiceLigne[i] = calculIndiceLigne(matrice[i][0:])
+    listIndiceLigne[i] = calculIndice(matrice[i][0:])
     
-print(listIndiceLigne)
+print("indice de ligne", listIndiceLigne)
 
-# parcours pour cree un dictionnaire d'indice de colonne et ajouter les valeurs aux cle 
+# parcours pour creer un dictionnaire d'indice de colonne et ajouter les valeurs aux cle
 for j in range(taille):
-    
-    listIndiceCol[j] = calculIndiceColonne(matrice)
-    
-print(listIndiceCol)
+    colonne = [ligne[j] for ligne in matrice] # renvoie chaque colonne de la matrice
+    listIndiceCol[j] = calculIndice(colonne)
+print("indice de colonnes", listIndiceCol)
 
 # verifie pour chaque ligne si elle correspond aux indices donner et renvoi true si pareil
 def est_valide(matrice, ligne):
@@ -129,48 +103,8 @@ def afficheTab(tabAff):
         print()
 
 
-def parcoursLignePleine(matrice):
-    n = 0
-    for i in range(taille):
-        for j in range(taille):
-            # verifie si a l'emplacement il y a un 1 et rajoute a n + 1
-            if matrice[i][j] == 1:
-                n += 1
+# def parcoursPlein():
 
-            # si on est a la fin de la ligne et que n est pas egale a 5 alors on reinitialise
-            if j == taille - 1 and n != 5:
-                n = 0
-            
-            # si on est a la fin de la ligne et que n vaut 5 alors on peint toutes les cases precedentes et on reinitialise
-            elif j == taille - 1 and n == 5:
-                n = 0
-                for k in range(5):
-                    tabAff[i][j - k] = bon
-
-def parcourColonnePleine(matrice):
- 
-    n = 0
-    for x in range(taille):
-        for y in range(taille):
-
-            # verifie si a l'emplacement il y a un 1 et rajoute a n + 1
-            if matrice[y][x] == 1:
-                n += 1
-            # si on est a la fin de la colonne et que n est pas egale a 5 alors on reinitialise
-            if y == taille - 1 and n != 5:
-                n = 0  
-            # si on est a la fin de la ligne et que n vaut 5 alors on peint toutes les cases precedentes et on reinitialise
-            elif y == taille - 1 and n == 5:
-                n = 0
-                for k in range(5):
-                    tabAff[y - k][x] = bon
-                
-
-
-
-
-parcoursLignePleine(matrice)
-parcourColonnePleine(matrice)
 afficheTab(tabAff)
 
 
