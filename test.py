@@ -1,10 +1,10 @@
 col = {0:[0], 1:[0], 2:[0], 3:[0], 4:[0]}
 
-matrice = [[1,1,0,1,0],
+matrice = [[1,1,1,1,1],
            [0,1,1,1,0],
            [0,1,0,1,1],
            [0,1,0,1,0],
-           [1,1,0,1,1]]
+           [1,1,1,1,1]]
 
 
 
@@ -103,8 +103,15 @@ def afficheTab(tabAff):
         print()
 
 
-# def parcoursPlein():
-
+def parcoursPlein():
+    for i in range(taille):
+        if listIndiceLigne[i] == [5]:
+            for k in range(taille):
+                tabAff[i][k] = bon
+        if listIndiceCol[i] == [5]:
+            for j in range(taille):
+                tabAff[j][i] = bon
+                
+parcoursPlein()
 afficheTab(tabAff)
-
 
