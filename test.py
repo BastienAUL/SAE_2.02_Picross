@@ -1,7 +1,5 @@
-col = {0:[0], 1:[0], 2:[0], 3:[0], 4:[0]}
-
 matrice = [[1,1,1,1,1],
-           [0,1,1,1,0],
+           [1,1,1,1,0],
            [0,1,0,1,1],
            [0,1,0,1,0],
            [1,1,1,1,1]]
@@ -105,13 +103,22 @@ def afficheTab(tabAff):
 
 def parcoursPlein():
     for i in range(taille):
-        if listIndiceLigne[i] == [5]:
+        if listIndiceLigne[i] == [taille]:
             for k in range(taille):
                 tabAff[i][k] = bon
         if listIndiceCol[i] == [5]:
             for j in range(taille):
                 tabAff[j][i] = bon
-                
+
+def chevauchement():
+    for i in range(taille):
+        if listIndiceLigne[i] > [taille/2] and listIndiceLigne[i] != [taille]:
+            print("l'indice:", listIndiceLigne[i], "chevauche")
+            for k in range(taille):
+                tabAff[i][k] = bon
+                tabAff[i][0] = mauvais
+
 parcoursPlein()
+chevauchement()
 afficheTab(tabAff)
 
