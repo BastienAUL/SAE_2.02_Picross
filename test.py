@@ -1,7 +1,7 @@
 matrice = [[1,1,1,1,1],
            [1,1,1,1,0],
            [0,1,0,1,1],
-           [0,1,0,1,0],
+           [0,0,0,1,1],
            [1,1,1,1,1]]
 
 
@@ -113,11 +113,17 @@ def parcoursPlein():
 def chevauchement():
     for i in range(taille):
         if listIndiceLigne[i] > [taille/2] and listIndiceLigne[i] != [taille]:
-            print("l'indice:", listIndiceLigne[i], "chevauche")
+            print("l'indice:", i, "chevauche")
             for k in range(taille):
                 tabAff[i][k] = bon
                 tabAff[i][0] = mauvais
+                tabAff[i][taille - 1] = mauvais
 
+def backtracking():
+    for i in range(taille):
+        for j in range(taille):
+            if matrice[i][j] == mauvais:
+                print("hello world")
 parcoursPlein()
 chevauchement()
 afficheTab(tabAff)
