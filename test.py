@@ -119,12 +119,43 @@ def chevauchement():
                 tabAff[i][0] = mauvais
                 tabAff[i][taille - 1] = mauvais
 
-def backtracking():
-    for i in range(taille):
-        for j in range(taille):
-            if matrice[i][j] == mauvais:
-                print("hello world")
+
+def genrerAll(lenght, indice):
+    
+    if not indice:
+        return [[mauvais] * lenght]
+
+    resultat = []
+    prem = indice[0]
+    rest = indice[1:]
+
+    minCaseUtile = sum(indice) + (len(indice) - 1)
+    
+    nbDecal = lenght - minCaseUtile
+    
+    for deb in range(nbDecal + 1):
+        premCase = [mauvais] * deb + [bon] * prem
+        
+        if rest:
+            premCase.append(mauvais)
+    
+        nvLen = lenght - len(premCase)
+
+        for suite in genrerAll(nvLen, rest):
+            resultat.append(premCase + suite)
+            
+    return resultat
+
+
 parcoursPlein()
 chevauchement()
 afficheTab(tabAff)
+
+for i in range(taille):
+    res = listIndiceLigne[i]
+    print("ligne", i, "possible:", genrerAll(taille, res))
+
+for i in range(taille):
+    res = listIndiceCol[i]
+    print("colonne", i,  "possible:", genrerAll(taille, res))
 
