@@ -1,26 +1,33 @@
-matrice = [[1,1,1,1,1],
-           [1,1,1,1,0],
-           [0,1,0,1,1],
-           [0,0,0,1,1],
-           [1,1,1,1,1]]
-
+matrice = [
+    [0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,1,1,1,0,0,0,0,0,0],
+    [0,0,0,0,0,1,1,1,1,1,0,0,0,0,0],
+    [0,0,0,0,1,1,1,1,1,1,1,0,0,0,0],
+    [0,0,0,1,1,1,1,1,1,1,1,1,0,0,0],
+    [0,0,1,1,1,1,1,1,1,1,1,1,1,0,0],
+    [0,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+    [0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,1,0,0,0,0,0,0,0]
+]
 
 
 bon="☐"
 mauvais="X"
-for i in range(5):
-    for j in range(5):
-        if matrice[i][j] == 1:
-            print(bon,end=" ")
-        else :
-            print(mauvais,end=" ")
-    print("\n")
+inconnu = -1
+
+
 
 list = [] # cree une liste pour verifier les indices 
-taille = 5 # taille de la matrice
+taille = 15 # taille de la matrice
 
-listIndiceLigne = {} #dictionnaire vide pour acceuillir les indices de lignes
-listIndiceCol = {} #dictionnaire vide pour acceuillir les indices de colonnes
+
+
 
 
 # permet de calculer les indices de la matrice donner
@@ -45,18 +52,28 @@ def calculIndice(matrice):
                 
     return listTmp
 
+
 # parcours pour cree un dictionnaire d'indice de ligne et ajouter les valeurs aux cle 
-for i in range(taille):
+def creerIndiceLigne():
+
+    listIndiceLigne = {} #dictionnaire vide pour acceuillir les indices de lignes
+
+    for i in range(taille):
+        listIndiceLigne[i] = calculIndice(matrice[i][0:])
+    return listIndiceLigne
     
-    listIndiceLigne[i] = calculIndice(matrice[i][0:])
-    
-print("indice de ligne", listIndiceLigne)
 
 # parcours pour creer un dictionnaire d'indice de colonne et ajouter les valeurs aux cle
-for j in range(taille):
-    colonne = [ligne[j] for ligne in matrice] # renvoie chaque colonne de la matrice
-    listIndiceCol[j] = calculIndice(colonne)
-print("indice de colonnes", listIndiceCol)
+def creerIndiceCol():
+
+    listIndiceCol = {} #dictionnaire vide pour acceuillir les indices de colonnes
+
+    for j in range(taille):
+        colonne = [ligne[j] for ligne in matrice] # renvoie chaque colonne de la matrice
+        listIndiceCol[j] = calculIndice(colonne)
+    
+    return listIndiceCol
+
 
 # verifie pour chaque ligne si elle correspond aux indices donner et renvoi true si pareil
 def est_valide(matrice, ligne):
@@ -88,12 +105,7 @@ def est_valide(matrice, ligne):
         return True
 
 
-est_valide(matrice[0][0:], listIndiceLigne[0])
-
-# tableau pour afficher
-tabAff = [[mauvais for i in range(taille)] for i in range(taille)]
-
-
+# fonction pour afficher la matrice resultat
 def afficheTab(tabAff):
     for i in range(taille):
         for j in range(taille):
@@ -101,26 +113,8 @@ def afficheTab(tabAff):
         print()
 
 
-def parcoursPlein():
-    for i in range(taille):
-        if listIndiceLigne[i] == [taille]:
-            for k in range(taille):
-                tabAff[i][k] = bon
-        if listIndiceCol[i] == [5]:
-            for j in range(taille):
-                tabAff[j][i] = bon
 
-def chevauchement():
-    for i in range(taille):
-        if listIndiceLigne[i] > [taille/2] and listIndiceLigne[i] != [taille]:
-            print("l'indice:", i, "chevauche")
-            for k in range(taille):
-                tabAff[i][k] = bon
-                tabAff[i][0] = mauvais
-                tabAff[i][taille - 1] = mauvais
-
-
-def genrerAll(lenght, indice):
+def genererAll(lenght, indice):
     
     if not indice:
         return [[mauvais] * lenght]
@@ -141,21 +135,152 @@ def genrerAll(lenght, indice):
     
         nvLen = lenght - len(premCase)
 
-        for suite in genrerAll(nvLen, rest):
+        for suite in genererAll(nvLen, rest):
             resultat.append(premCase + suite)
             
     return resultat
 
+def intersection(possibilite):
+    
+    resultat = []
 
-parcoursPlein()
-chevauchement()
-afficheTab(tabAff)
+    for i in range(taille):
+        val = [ligne[i] for ligne in possibilite]
+        
+        if all(c == bon for c in val):
+            resultat.append(bon)
+        elif all(c == mauvais for c in val):
+            resultat.append(mauvais)
+        else:
+            resultat.append(inconnu)
+    return resultat
 
-for i in range(taille):
-    res = listIndiceLigne[i]
-    print("ligne", i, "possible:", genrerAll(taille, res))
 
-for i in range(taille):
-    res = listIndiceCol[i]
-    print("colonne", i,  "possible:", genrerAll(taille, res))
+def filtrePoss(possibilite, ligne):
 
+    res = []
+
+    for p in possibilite:
+        
+        ok = True
+
+        for i in range(taille):
+            if ligne[i] != inconnu and ligne[i] != p[i]:
+                ok = False
+                break
+        
+        if ok:
+            res.append(p)
+    
+    return res
+
+
+def traiterLigne(tab, possibilite):
+
+    for i in range(taille):
+
+        possVraiLine = filtrePoss(possibilite[i], tab[i])
+        
+
+        deduction = intersection(possVraiLine)
+
+        for j in range(taille):
+            if tab[i][j] == inconnu and deduction[j] != inconnu:
+                tab[i][j] = deduction[j]
+
+def traiterColonne(tab, possibilite):
+
+    for j in range(taille):
+
+        colonne = [tab[i][j] for i in range(taille)]
+            
+        possVraiCol = filtrePoss(possibilite[j], colonne)
+
+        deduction = intersection(possVraiCol)
+
+        for i in range(taille):
+            if tab[i][j] == inconnu and deduction[i] != inconnu:
+                tab[i][j] = deduction[i]
+
+           
+
+            
+
+def propagation(possLine, possCol, taille):
+    tabRes = [[inconnu for i in range(taille)] for _ in range(taille)]
+
+    change = True
+
+    while change != False:
+        compare = [ligne[:] for ligne in tabRes]
+
+        traiterLigne(tabRes, possLine)
+        traiterColonne(tabRes, possCol)
+
+        if compare != tabRes:
+            change = True
+        else:
+            change = False
+
+    return tabRes
+
+
+def grilleComplete(tab):
+    res = True
+    for ligne in tab:
+        if inconnu in ligne:
+            res = False
+    return res
+
+def trouverCaseInconnue(tab):
+    for i in range(taille):
+        for j in range(taille):
+
+            if tab[i][j] == inconnu:
+              return(i, j)
+    return None
+
+def backtracking(tab, possLine, possCol):
+
+    if grilleComplete(tab):
+        return True
+
+    case = trouverCaseInconnue(tab)
+
+    if case == None:
+        return True
+
+    i, j = case
+
+    for val in [bon, mauvais]:
+
+        tabRes = [ligne[:] for ligne in tab]
+        tabRes[i][j] = val
+
+        if backtracking(tabRes, possLine, possCol):
+
+            for k in range(taille):
+                tab[k] = tabRes[k][:]
+            return True
+    
+    return False
+
+def main():
+    indiceLigne = creerIndiceLigne()
+    listIndiceLigne = [indiceLigne[i] for i in sorted(indiceLigne.keys())]
+    indiceCol = creerIndiceCol()
+    listIndiceCol = [indiceCol[i] for i in sorted(indiceCol.keys())]
+
+    possLine = [genererAll(taille, indice) for indice in listIndiceLigne]
+    possCol = [genererAll(taille, indice) for indice in listIndiceCol]
+
+    tabAff = propagation(possLine, possCol, taille)
+
+    res = backtracking(tabAff, possLine, possCol)
+
+    if res == True:
+        afficheTab(tabAff)
+    else:
+        print("pas de solution")
+
+main()
