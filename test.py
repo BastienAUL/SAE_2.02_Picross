@@ -1,19 +1,9 @@
 matrice = [
-    [0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,1,1,1,0,0,0,0,0,0],
-    [0,0,0,0,0,1,1,1,1,1,0,0,0,0,0],
-    [0,0,0,0,1,1,1,1,1,1,1,0,0,0,0],
-    [0,0,0,1,1,1,1,1,1,1,1,1,0,0,0],
-    [0,0,1,1,1,1,1,1,1,1,1,1,1,0,0],
-    [0,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
-    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-    [0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,1,0,0,0,0,0,0,0]
+    [1,0,0,0,0],
+    [0,1,0,1,0],
+    [0,0,1,1,1],
+    [0,1,0,0,1],
+    [0,1,0,0,0],   
 ]
 
 
@@ -24,7 +14,7 @@ inconnu = -1
 
 
 list = [] # cree une liste pour verifier les indices 
-taille = 15 # taille de la matrice
+taille = 5 # taille de la matrice
 
 
 
@@ -113,7 +103,7 @@ def afficheTab(tabAff):
         print()
 
 
-
+# genere toute les possibilité pour une ligne ou une colonne donné 
 def genererAll(lenght, indice):
     
     if not indice:
@@ -140,6 +130,7 @@ def genererAll(lenght, indice):
             
     return resultat
 
+# met les cases si elles se chevauche que ce soit bon ou pas
 def intersection(possibilite):
     
     resultat = []
@@ -155,7 +146,7 @@ def intersection(possibilite):
             resultat.append(inconnu)
     return resultat
 
-
+# filtre les possibilité car certaine sont impossible
 def filtrePoss(possibilite, ligne):
 
     res = []
@@ -180,7 +171,6 @@ def traiterLigne(tab, possibilite):
     for i in range(taille):
 
         possVraiLine = filtrePoss(possibilite[i], tab[i])
-        
 
         deduction = intersection(possVraiLine)
 
@@ -205,7 +195,7 @@ def traiterColonne(tab, possibilite):
            
 
             
-
+# propagation sur les lignes et les colonnes 
 def propagation(possLine, possCol, taille):
     tabRes = [[inconnu for i in range(taille)] for _ in range(taille)]
 
@@ -224,7 +214,7 @@ def propagation(possLine, possCol, taille):
 
     return tabRes
 
-
+# verifie si la grille est complete
 def grilleComplete(tab):
     res = True
     for ligne in tab:
@@ -232,6 +222,7 @@ def grilleComplete(tab):
             res = False
     return res
 
+# renvoie la position d'une case inconnue
 def trouverCaseInconnue(tab):
     for i in range(taille):
         for j in range(taille):
@@ -240,6 +231,8 @@ def trouverCaseInconnue(tab):
               return(i, j)
     return None
 
+
+# backtracking pour les cases inconnus
 def backtracking(tab, possLine, possCol):
 
     if grilleComplete(tab):
@@ -268,6 +261,7 @@ def backtracking(tab, possLine, possCol):
 def main():
     indiceLigne = creerIndiceLigne()
     listIndiceLigne = [indiceLigne[i] for i in sorted(indiceLigne.keys())]
+
     indiceCol = creerIndiceCol()
     listIndiceCol = [indiceCol[i] for i in sorted(indiceCol.keys())]
 
