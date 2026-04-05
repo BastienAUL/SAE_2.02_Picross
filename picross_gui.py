@@ -112,7 +112,6 @@ class PicrossSimpleApp:
         self.zone_resultat = tk.Text(cadre_droit, wrap="word", height=34, width=34)
         self.zone_resultat.pack(fill="both", expand=True)
 
-        # Positionne la barre centrale plus a droite au chargement.
         self.fenetre.update_idletasks()
         largeur = max(900, self.fenetre.winfo_width())
         self.panneau.sashpos(0, int(largeur * 0.72))
